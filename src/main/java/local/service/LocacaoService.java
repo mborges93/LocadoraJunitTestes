@@ -18,7 +18,7 @@ public class LocacaoService {
     public Locacao alugarFilme(Cliente cliente, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException {
        
         if (cliente == null) {
-            throw new LocadoraException("Impossivel locar sem um usuário");
+            throw new LocadoraException("Impossível locar sem um usuário");
         }
 
         if (filmes == null || filmes.isEmpty()) {
