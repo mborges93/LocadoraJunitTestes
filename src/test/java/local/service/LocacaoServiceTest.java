@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.junit.Assert.*;
+import org.junit.Assume;
 //TODO atualizar testes para trabalhar com os multiplos filmes
 
 public class LocacaoServiceTest {
@@ -116,6 +118,27 @@ public class LocacaoServiceTest {
         Date data = locacao.getDataRetorno();
 
         assertTrue(DataUtils.isMesmaData(data, DataUtils.obterDataComDiferencaDias(1)));
+
+    }
+
+    @Test
+    public void SeLocarNoSabadoEntregarNaSegunda() throws FilmeSemEstoqueException, LocadoraException {
+        Date dataLocacao = new Date();
+        Date dataEntrega = new Date();
+
+        String data = "";
+        if (DataUtils.verificarDiaSemana(dataLocacao, Calendar.SATURDAY)) {
+            dataEntrega = DataUtils.obterDataComDiferencaDias(2);
+
+            data = dataEntrega.toString();
+            assertTrue(data.contains("Mon"));
+
+        } else {
+            dataEntrega = DataUtils.obterDataComDiferencaDias(1);
+        }
+        System.out.println("Data de Entrega " + dataEntrega);
+
+        Assume.assumeFalse(DataUtils.isMesmaData(dataLocacao, dataEntrega));
 
     }
 
